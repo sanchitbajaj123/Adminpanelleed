@@ -107,39 +107,70 @@ const App = () => {
   <div className="col-12 mb-4">
     <div className="card p-3 shadow">
       <h4 className="text-center mb-3">🏆 Lead Points per User</h4>
-      <Bar
-        data={leadPointsData}
-        options={{
-          indexAxis: 'y',
-          plugins: { legend: { display: false } },
-          scales: { x: { beginAtZero: true } },
-        }}
-      />
+
+      {/* Scrollable Container */}
+      <div style={{ maxHeight: '400px', overflowY: 'auto', padding: '10px' }}>
+        <Bar
+          data={leadPointsData}
+          options={{
+            indexAxis: 'y',
+            plugins: { legend: { display: false } },
+            scales: { x: { beginAtZero: true } },
+            maintainAspectRatio: false,
+            responsive: true,
+          }}
+          height={leadPointsData.labels.length * 40} // Dynamic height for better readability
+        />
+      </div>
+
     </div>
   </div>
 )}
 
+
       </div>
 
       <div className="row">
-        {users.map((user, idx) => (
-          <div key={idx} className="col-md-4 mb-4">
-            <div className="card p-3 h-100 shadow user-card bg-light border-0">
-              <h5 className="text-primary">{user.email}</h5>
-              <p><strong>Address:</strong> {user.address || 'N/A'}</p>
-              <p><strong>Lead Points:</strong> {user.leadpoints}</p>
-              <h6>Products:</h6>
-              <ul className="list-unstyled">
-                {user.products.map((product, pIdx) => (
-                  <li key={pIdx}>
-                    {product.name} - ₹{product.price} [{product.paymentdone ? 'Paid' : 'Unpaid'}]
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        ))}
+  {users.map((user, idx) => (
+    <div key={idx} className="col-md-4 mb-4">
+      <div className="card p-3 h-100 shadow user-card bg-light border-0">
+        <h5 className="text-primary">{user.email}</h5>
+        <p><strong>Address:</strong> {user.address || 'N/A'}</p>
+        <p><strong>Lead Points:</strong> {user.leadpoints}</p>
+        
+        {/* Products List */}
+        <h6>Products:</h6>
+        <div style={{ maxHeight: '150px', overflowY: 'auto' }}>
+          <ul className="list-unstyled mb-3">
+            {user.products.map((product, pIdx) => (
+              <li key={pIdx}>
+                {product.name} - ₹{product.price} [{product.paymentdone ? 'Paid' : 'Unpaid'}]
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* Lead Points Record */}
+        <h6>Lead Points Record:</h6>
+        <div style={{ maxHeight: '150px', overflowY: 'auto' }}>
+          <ul className="list-group small">
+            {user.leadpointsrecord.map((record, rIdx) => (
+              <li key={rIdx} className="list-group-item d-flex justify-content-between align-items-center">
+                <div>
+                  <strong>{record.action}</strong> (+{record.points} pts)
+                  <br />
+                  <small>{new Date(record.timestamp).toLocaleString()}</small>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+
       </div>
+    </div>
+  ))}
+</div>
+
 
       <style>{`
         .user-card:hover {
