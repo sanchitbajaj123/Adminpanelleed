@@ -18,6 +18,7 @@ const App = () => {
   const [users, setUsers] = useState([]);
   const [actionsCount, setActionsCount] = useState({ signup: 0, login: 0, addtocart: 0, payment: 0 });
   const [leadPointsData, setLeadPointsData] = useState({});
+  const [productStatsData, setProductStatsData] = useState({});
 
   useEffect(() => {
     fetchData();
@@ -32,10 +33,56 @@ const App = () => {
       setUsers(res.data);
       calculateActions(res.data);
       prepareLeadPointsData(res.data);
+      prepareProductStats(res.data); // Add this line
     } catch (err) {
       console.error('Error fetching users:', err);
     }
   };
+  const prepareProductStats = (data) => {
+    const stats = {};
+  
+    data.forEach(user => {
+      user.products.forEach(product => {
+        if (!stats[product.name]) {
+          stats[product.name] = { added: 0, paid: 0, unpaid: 0 };
+        }
+        stats[product.name].added += 1;
+        if (product.paymentdone) {
+          stats[product.name].paid += 1;
+        } else {
+          stats[product.name].unpaid += 1;
+        }
+      });
+    });
+  
+    // Convert into Chart.js compatible format
+    const labels = Object.keys(stats);
+    const addedData = labels.map(name => stats[name].added);
+    const paidData = labels.map(name => stats[name].paid);
+    const unpaidData = labels.map(name => stats[name].unpaid);
+  
+    setProductStatsData({
+      labels,
+      datasets: [
+        {
+          label: 'Added to Cart',
+          data: addedData,
+          backgroundColor: '#007bff',
+        },
+        {
+          label: 'Payment Done',
+          data: paidData,
+          backgroundColor: '#28a745',
+        },
+        {
+          label: 'Unpaid',
+          data: unpaidData,
+          backgroundColor: '#dc3545',
+        },
+      ],
+    });
+  };
+  
 
   const calculateActions = (data) => {
     let signup = 0, login = 0, addtocart = 0, payment = 0;
@@ -119,7 +166,7 @@ const App = () => {
             maintainAspectRatio: false,
             responsive: true,
           }}
-          height={leadPointsData.labels.length * 40} // Dynamic height for better readability
+          height={leadPointsData.labels.length * 40} 
         />
       </div>
 
@@ -129,6 +176,22 @@ const App = () => {
 
 
       </div>
+      {productStatsData.labels && productStatsData.labels.length > 0 && (
+  <div className="col-12 mb-4">
+    <div className="card p-3 shadow">
+      <h4 className="text-center mb-3">🛒 Product Stats Overview</h4>
+      <Bar
+        data={productStatsData}
+        options={{
+          responsive: true,
+          plugins: { legend: { position: 'top' }, title: { display: true, text: 'Product Add & Payment Status' } },
+          scales: { y: { beginAtZero: true } },
+        }}
+      />
+    </div>
+  </div>
+)}
+
 
       <div className="row">
   {users.map((user, idx) => (
