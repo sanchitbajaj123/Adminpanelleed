@@ -1,27 +1,28 @@
-Admin Panel
+<h2>Overview</h2>
+<p>The <strong>Admin Panel</strong> is a React-based dashboard for managing leads, visualizing user data, and tracking lead points and product statistics. It provides an intuitive and responsive interface with graphical insights and real-time updates.</p>
 
-Overview
+<h2>Features</h2>
+<ul>
+    <li><strong>Lead Management:</strong> View and track lead details.</li>
+    <li><strong>User Data Visualization:</strong> Display user signups, actions, and lead points.</li>
+    <li><strong>Graphical Representation:</strong> Charts for total signups, actions, lead points, and product stats.</li>
+    <li><strong>Responsive UI:</strong> Optimized for various screen sizes.</li>
+    <li><strong>REST API Integration:</strong> Fetches data from <a href="https://leadcal-nu.vercel.app/">LeadCal API</a>.</li>
+</ul>
 
-The Admin Panel is a React-based dashboard for managing leads, visualizing user data, and tracking lead points and product statistics. It provides an intuitive and responsive interface with graphical insights and real-time updates.
+<h2>Tech Stack</h2>
+<ul>
+    <li><strong>Frontend:</strong> React.js</li>
+    <li><strong>Styling:</strong> Bootstrap, CSS</li>
+    <li><strong>Charts:</strong> Chart.js</li>
+    <li><strong>Backend API:</strong> Node.js, Express.js (hosted separately)</li>
+</ul>
 
-Features
+<h2>Installation</h2>
 
-Lead Management: View and track lead details.
-
-User Data Visualization: Display user signups, actions, and lead points.
-
-Graphical Representation: Charts for total signups, actions, lead points, and product stats.
-
-Responsive UI: Optimized for various screen sizes.
-
-REST API Integration: Fetches data from LeadCal API.
-
-Tech Stack
-
-Frontend: React.js
-
-Styling: Bootstrap, CSS
-
-Charts: Chart.js
-
-Backend API: Node.js, Express.js (hosted separately)
+<h3>Prerequisites</h3>
+<p>Ensure you have the following installed:</p>
+<ul>
+    <li><a href="https://nodejs.org/">Node.js</a></li>
+    <li>npm or yarn</li>
+</ul>
